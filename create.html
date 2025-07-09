@@ -19,23 +19,20 @@
   <main>
     <section>
       <h2>Create a Memorial</h2>
-      <form>
+      <form action="https://formspree.io/f/mqabvjkr" method="POST">
         <label>Full Name:</label><br>
-        <input type="text" placeholder="John Doe"><br><br>
+        <input type="text" name="name" placeholder="John Doe" required><br><br>
 
         <label>Date of Birth:</label><br>
-        <input type="date"><br><br>
+        <input type="date" name="dob" required><br><br>
 
         <label>Date of Passing:</label><br>
-        <input type="date"><br><br>
+        <input type="date" name="dod" required><br><br>
 
         <label>Story or Tribute:</label><br>
-        <textarea rows="5" cols="40" placeholder="Write a short story..."></textarea><br><br>
+        <textarea name="story" rows="5" cols="40" placeholder="Write a short story..." required></textarea><br><br>
 
-        <label>Upload Photo (disabled in this version):</label><br>
-        <input type="file" disabled><br><br>
-
-        <input type="submit" value="Submit (non-functional)">
+        <input type="submit" value="Submit Memorial">
       </form>
     </section>
   </main>
