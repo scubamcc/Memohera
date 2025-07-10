@@ -2,42 +2,93 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>Create Memorial - Memohera</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Create a Memorial</title>
   <link rel="stylesheet" href="style.css"/>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <header>
-    <h1>Memohera</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="create.html">Create Memorial</a>
-      <a href="memorials.html">Memorials</a>
-    </nav>
+    <h1>Create a Memorial</h1>
   </header>
   <main>
-    <section>
-      <h2>Create a Memorial</h2>
-      <form action="https://formspree.io/f/mqabvjkr" method="POST">
-        <label>Full Name:</label><br>
-        <input type="text" name="name" placeholder="John Doe" required><br><br>
-
-        <label>Date of Birth:</label><br>
-        <input type="date" name="dob" required><br><br>
-
-        <label>Date of Passing:</label><br>
-        <input type="date" name="dod" required><br><br>
-
-        <label>Story or Tribute:</label><br>
-        <textarea name="story" rows="5" cols="40" placeholder="Write a short story..." required></textarea><br><br>
-
-        <input type="submit" value="Submit Memorial">
-      </form>
-    </section>
+    <form id="memorialForm">
+      <input type="text" id="full_name" placeholder="Full Name" required>
+      <input type="date" id="dob" placeholder="Date of Birth" required>
+      <input type="date" id="dod" placeholder="Date of Death" required>
+      <input type="text" id="country" placeholder="Country" required>
+      <textarea id="story" placeholder="Their Story..." required></textarea>
+      <input type="file" id="image" accept="image/png, image/jpeg">
+      <button type="submit">Submit Memorial</button>
+      <p id="statusMsg"></p>
+    </form>
   </main>
-  <footer>
-    <p>© 2025 Memohera. All rights reserved.</p>
-  </footer>
+
+<script>
+  const supabase = supabase.createClient(
+    "https://qiwebjkxdazthitzdvhm.supabase.co",
+    "public"
+  );
+
+  const bucketName = "memorial-images";
+  const maxFileSize = 5 * 1024 * 1024;
+
+  document.getElementById("memorialForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const status = document.getElementById("statusMsg");
+    status.innerText = "Submitting...";
+
+    const full_name = document.getElementById("full_name").value;
+    const dob = document.getElementById("dob").value;
+    const dod = document.getElementById("dod").value;
+    const country = document.getElementById("country").value;
+    const story = document.getElementById("story").value;
+    const imageFile = document.getElementById("image").files[0];
+
+    if (new Date(dod) > new Date()) {
+      status.innerText = "Date of death cannot be in the future.";
+      return;
+    }
+
+    let image_url = null;
+
+    if (imageFile) {
+      if (!["image/jpeg", "image/png"].includes(imageFile.type)) {
+        status.innerText = "Only JPG and PNG images allowed.";
+        return;
+      }
+      if (imageFile.size > maxFileSize) {
+        status.innerText = "Image must be under 5MB.";
+        return;
+      }
+
+      const fileExt = imageFile.name.split('.').pop();
+      const filePath = `${Date.now()}-${full_name.replace(/\s+/g, "_")}.${fileExt}`;
+
+      let { error: uploadError } = await supabase.storage
+        .from(bucketName)
+        .upload(filePath, imageFile);
+
+      if (uploadError) {
+        status.innerText = "Image upload failed.";
+        return;
+      }
+
+      const { data } = supabase.storage.from(bucketName).getPublicUrl(filePath);
+      image_url = data.publicUrl;
+    }
+
+    const { error } = await supabase
+      .from("memorials")
+      .insert([{ full_name, dob, dod, country, story, image_url }]);
+
+    if (error) {
+      status.innerText = "Submission failed.";
+    } else {
+      status.innerText = "Memorial submitted successfully and pending approval.";
+      document.getElementById("memorialForm").reset();
+    }
+  });
+</script>
 </body>
 </html>
