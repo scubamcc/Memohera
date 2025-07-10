@@ -3,37 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Memorials</title>
+  <title>Memorials - Memohera</title>
   <link rel="stylesheet" href="style.css"/>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <header>
-    <h1>Memohera</h1>
+    <h1>Memohera Memorials</h1>
     <nav>
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
-      <a href="create.html">Create Memorial</a>
+      <a href="create.html">Create</a>
       <a href="memorials.html">Memorials</a>
     </nav>
   </header>
   <main>
-    <section>
-      <h2>Memorials</h2>
-      <div>
-        <h3>Maria Papadopoulou</h3>
-        <p>1945 – 2022</p>
-        <p>"Her love and kindness will never be forgotten."</p>
-      </div>
-      <hr>
-      <div>
-        <h3>Andreas Christou</h3>
-        <p>1970 – 2021</p>
-        <p>"A brilliant mind and a gentle soul."</p>
-      </div>
-    </section>
+    <h2>Approved Memorials</h2>
+    <div id="memorialList"></div>
   </main>
-  <footer>
-    <p>© 2025 Memohera. All rights reserved.</p>
-  </footer>
+  <script>
+    const supabase = supabase.createClient("https://qiwebjkxdazthitzdvhm.supabase.co", "public");
+
+    async function loadMemorials() {
+      const { data, error } = await supabase
+        .from('memorials')
+        .select('*')
+        .eq('approved', true)
+        .order('created_at', { ascending: false });
+
+      const container = document.getElementById("memorialList");
+      if (error) {
+        container.innerText = "Error loading memorials.";
+        return;
+      }
+
+      data.forEach(mem => {
+        const div = document.createElement("div");
+        div.className = "card";
+        div.innerHTML = `
+          <h3>${mem.full_name}</h3>
+          <p><b>DOB:</b> ${mem.dob} | <b>DOD:</b> ${mem.dod}</p>
+          <p><b>Country:</b> ${mem.country}</p>
+          <p>${mem.story}</p>
+          ${mem.image_url ? `<img src="${mem.image_url}" width="200"/>` : ""}
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    loadMemorials();
+  </script>
 </body>
 </html>

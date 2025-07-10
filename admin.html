@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin - Memohera</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <header>
+    <h1>Admin Panel</h1>
+  </header>
+  <main>
+    <section id="loginSection">
+      <h3>Admin Login</h3>
+      <input type="password" id="adminPassword" placeholder="Enter password">
+      <button onclick="checkLogin()">Login</button>
+      <p id="loginMessage"></p>
+    </section>
+    <section id="adminPanel" style="display:none;">
+      <h2>Pending Memorials</h2>
+      <div id="memorialsList"></div>
+    </section>
+  </main>
+  <script>
+    const supabase = supabase.createClient("https://qiwebjkxdazthitzdvhm.supabase.co", "public");
+    const adminPass = "memohera2025";
+
+    function checkLogin() {
+      const input = document.getElementById("adminPassword").value;
+      if (input === adminPass) {
+        document.getElementById("loginSection").style.display = "none";
+        document.getElementById("adminPanel").style.display = "block";
+        loadPending();
+      } else {
+        document.getElementById("loginMessage").innerText = "Wrong password.";
+      }
+    }
+
+    async function loadPending() {
+      const { data, error } = await supabase
+        .from('memorials')
+        .select('*')
+        .eq('approved', false);
+
+      const container = document.getElementById("memorialsList");
+      if (error) {
+        container.innerText = "Error loading memorials.";
+        return;
+      }
+      if (data.length === 0) {
+        container.innerText = "No pending memorials.";
+        return;
+      }
+
+      data.forEach(mem => {
+        const div = document.createElement("div");
+        div.className = "card";
+        div.innerHTML = `
+          <h3>${mem.full_name}</h3>
+          <p><b>DOB:</b> ${mem.dob} | <b>DOD:</b> ${mem.dod}</p>
+          <p><b>Country:</b> ${mem.country}</p>
+          <p>${mem.story}</p>
+          ${mem.image_url ? `<img src="${mem.image_url}" width="200"/>` : ""}
+          <button onclick="approve('${mem.id}')">Approve</button>
+          <button onclick="remove('${mem.id}')">Delete</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    async function approve(id) {
+      await supabase.from('memorials').update({ approved: true }).eq('id', id);
+      location.reload();
+    }
+
+    async function remove(id) {
+      await supabase.from('memorials').delete().eq('id', id);
+      location.reload();
+    }
+  </script>
+</body>
+</html>
