@@ -11,13 +11,16 @@
   <header>
     <h1>Admin Panel</h1>
   </header>
+
   <main>
+    <!-- 🔒 Login Section -->
     <div id="loginSection">
       <input type="password" id="adminPassword" placeholder="Enter admin password" />
       <button onclick="checkPassword()">Login</button>
       <p id="loginMessage" style="color:red;"></p>
     </div>
 
+    <!-- ✅ Admin Controls -->
     <div id="adminSection" style="display:none;">
       <p>Loading pending memorials...</p>
       <ul id="memorialList"></ul>
@@ -25,9 +28,11 @@
   </main>
 
 <script>
-  const SUPABASE_URL = "https://qiwebjkxdazthitzdvhm.supabase.co";
-  const SUPABASE_KEY = "public";
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  // ✅ Connect to Supabase
+  const supabase = supabase.createClient(
+    "https://qiwebjkxdazthitzdvhm.supabase.co",
+    "public"
+  );
 
   const ADMIN_PASSWORD = "memohera2025";
 
@@ -71,8 +76,8 @@
         <em>${mem.dob} – ${mem.dod}</em><br>
         <p>${mem.story}</p>
         ${mem.image_url ? `<img src="${mem.image_url}" width="200" /><br>` : ""}
-        <button onclick="approveMemorial(${mem.id})">Approve</button>
-        <button onclick="deleteMemorial(${mem.id})" style="color:red;">Delete</button>
+        <button onclick="approveMemorial(${mem.id})">✅ Approve</button>
+        <button onclick="deleteMemorial(${mem.id})" style="color:red;">🗑️ Delete</button>
         <hr>
       `;
       list.appendChild(li);
