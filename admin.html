@@ -6,99 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="style.css"/>
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script defer src="admin.js"></script>
 </head>
 <body>
   <header>
     <h1>Admin Panel</h1>
   </header>
-
   <main>
-    <!-- 🔒 Login Section -->
-    <div id="loginSection">
-      <input type="password" id="adminPassword" placeholder="Enter admin password" />
-      <button onclick="checkPassword()">Login</button>
-      <p id="loginMessage" style="color:red;"></p>
+    <div id="loginPanel">
+      <input type="password" id="adminPassword" placeholder="Enter admin password"/>
+      <button onclick="login()">Login</button>
+      <p id="loginMessage"></p>
     </div>
-
-    <!-- ✅ Admin Controls -->
-    <div id="adminSection" style="display:none;">
-      <p>Loading pending memorials...</p>
-      <ul id="memorialList"></ul>
+    <div id="adminDashboard" style="display:none;">
+      <h2>Pending Memorials</h2>
+      <ul id="pendingList"></ul>
     </div>
   </main>
-
-<script>
-  // ✅ Connect to Supabase
-  const supabase = supabase.createClient(
-    "https://qiwebjkxdazthitzdvhm.supabase.co",
-    "public"
-  );
-
-  const ADMIN_PASSWORD = "memohera2025";
-
-  function checkPassword() {
-    const input = document.getElementById("adminPassword").value;
-    const message = document.getElementById("loginMessage");
-
-    if (input === ADMIN_PASSWORD) {
-      document.getElementById("loginSection").style.display = "none";
-      document.getElementById("adminSection").style.display = "block";
-      loadMemorials();
-    } else {
-      message.textContent = "Incorrect password. Please try again.";
-    }
-  }
-
-  async function loadMemorials() {
-    const { data, error } = await supabase
-      .from("memorials")
-      .select("*")
-      .eq("approved", false)
-      .order("created_at", { ascending: false });
-
-    const list = document.getElementById("memorialList");
-    list.innerHTML = "";
-
-    if (error) {
-      list.innerHTML = "<li>Error loading memorials.</li>";
-      return;
-    }
-
-    if (data.length === 0) {
-      list.innerHTML = "<li>No pending memorials.</li>";
-      return;
-    }
-
-    data.forEach(mem => {
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <strong>${mem.full_name}</strong> (${mem.country})<br>
-        <em>${mem.dob} – ${mem.dod}</em><br>
-        <p>${mem.story}</p>
-        ${mem.image_url ? `<img src="${mem.image_url}" width="200" /><br>` : ""}
-        <button onclick="approveMemorial(${mem.id})">✅ Approve</button>
-        <button onclick="deleteMemorial(${mem.id})" style="color:red;">🗑️ Delete</button>
-        <hr>
-      `;
-      list.appendChild(li);
-    });
-  }
-
-  async function approveMemorial(id) {
-    await supabase
-      .from("memorials")
-      .update({ approved: true })
-      .eq("id", id);
-    loadMemorials();
-  }
-
-  async function deleteMemorial(id) {
-    await supabase
-      .from("memorials")
-      .delete()
-      .eq("id", id);
-    loadMemorials();
-  }
-</script>
 </body>
 </html>
