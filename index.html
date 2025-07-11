@@ -2,29 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>Memohera - In Loving Memory</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Memohera – Remember Forever</title>
   <link rel="stylesheet" href="style.css"/>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script defer src="memorials.js"></script>
 </head>
 <body>
   <header>
     <h1>Memohera</h1>
     <nav>
       <a href="index.html">Home</a>
-      <a href="about.html">About</a>
       <a href="create.html">Create Memorial</a>
-      <a href="memorials.html">Memorials</a>
+      <a href="admin.html">Admin</a>
     </nav>
   </header>
   <main>
-    <section>
-      <h2>Welcome to Memohera</h2>
-      <p>A place to honor, remember, and preserve the memories of loved ones.</p>
-      <p>Start by <a href="create.html">creating a memorial</a> or <a href="memorials.html">browsing existing ones</a>.</p>
-    </section>
+    <h2>Memorials</h2>
+    <input type="text" id="searchBox" placeholder="Search by name or country..." />
+    <ul id="memorialList"></ul>
   </main>
-  <footer>
-    <p>© 2025 Memohera. All rights reserved.</p>
-  </footer>
 </body>
 </html>

@@ -1,3 +1,4 @@
+
 const supabase = supabase.createClient(
   "https://qiwebjkxdazthitzdvhm.supabase.co",
   "public"
@@ -40,7 +41,7 @@ async function loadMemorials() {
       <strong>${mem.full_name}</strong> (${mem.country})<br>
       <em>${mem.dob} – ${mem.dod}</em><br>
       <p>${mem.story}</p>
-      ${mem.image_url ? `<img src="${mem.image_url}" width="200" /><br>` : ""}
+      ${mem.image_url ? `<img src="${mem.image_url}" /><br>` : ""}
       <hr>
     `;
     list.appendChild(li);

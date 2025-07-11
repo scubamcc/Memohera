@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Memohera - In Loving Memory</title>
+  <title>Create Memorial - Memohera</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="style.css"/>
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <script defer src="memorials.js"></script>
+  <script defer src="create.js"></script>
 </head>
 <body>
   <header>
@@ -17,11 +17,18 @@
       <a href="admin.html">Admin</a>
     </nav>
   </header>
-
   <main>
-    <h2>Memorials</h2>
-    <input type="text" id="searchBox" placeholder="Search by name or country..." />
-    <ul id="memorialList"></ul>
+    <h2>Create a New Memorial</h2>
+    <form id="memorialForm">
+      <input type="text" name="full_name" placeholder="Full Name" required /><br>
+      <input type="date" name="dob" placeholder="Date of Birth" required /><br>
+      <input type="date" name="dod" placeholder="Date of Death" required /><br>
+      <input type="text" name="country" placeholder="Country" required /><br>
+      <textarea name="story" placeholder="Life story..." required></textarea><br>
+      <input type="file" id="imageUpload" accept="image/*" /><br>
+      <button type="submit">Submit Memorial</button>
+    </form>
+    <p id="statusMessage"></p>
   </main>
 </body>
 </html>
