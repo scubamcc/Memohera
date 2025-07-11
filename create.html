@@ -5,6 +5,7 @@
   <title>Create Memorial - Memohera</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="style.css"/>
+  <link rel="icon" type="image/x-icon" href="favicon.ico"/>
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <script defer src="create.js"></script>
 </head>
@@ -21,11 +22,14 @@
     <h2>Create a New Memorial</h2>
     <form id="memorialForm">
       <input type="text" name="full_name" placeholder="Full Name" required /><br>
-      <input type="date" name="dob" placeholder="Date of Birth" required /><br>
-      <input type="date" name="dod" placeholder="Date of Death" required /><br>
-      <input type="text" name="country" placeholder="Country" required /><br>
+      <input type="date" name="dob" required /><br>
+      <input type="date" name="dod" required /><br>
+      <select name="country" id="countrySelect" required>
+        <option value="">Select Country</option>
+      </select><br>
       <textarea name="story" placeholder="Life story..." required></textarea><br>
       <input type="file" id="imageUpload" accept="image/*" /><br>
+      <img id="thumbnail" style="display:none; max-height:100px; margin:10px 0;" /><br>
       <button type="submit">Submit Memorial</button>
     </form>
     <p id="statusMessage"></p>
