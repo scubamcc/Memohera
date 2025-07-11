@@ -1,5 +1,4 @@
-
-const supabase = supabase.createClient(
+const client = window.supabase.createClient(
   "https://qiwebjkxdazthitzdvhm.supabase.co",
   "public"
 );
@@ -72,7 +71,7 @@ form.addEventListener("submit", async (e) => {
   let image_url = "";
   const file = imageInput.files[0];
   if (file) {
-    const { data, error } = await supabase.storage.from("memorial-photos")
+    const { data, error } = await client.storage.from("memorial-photos")
       .upload(`images/${Date.now()}_${file.name}`, file);
 
     if (error) {
@@ -81,7 +80,7 @@ form.addEventListener("submit", async (e) => {
       return;
     }
 
-    const { data: publicUrl } = supabase.storage.from("memorial-photos")
+    const { data: publicUrl } = client.storage.from("memorial-photos")
       .getPublicUrl(data.path);
     image_url = publicUrl.publicUrl;
   }
