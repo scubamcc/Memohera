@@ -1,3 +1,50 @@
-body { font-family: Arial, sans-serif; margin: 2em; }
-header, nav a { margin-right: 10px; }
-form input, textarea, select { margin: 5px 0; width: 100%; max-width: 400px; }
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f6f7fb;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+header {
+  background-color: #283e4a;
+  color: white;
+  padding: 1em;
+  text-align: center;
+}
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+main {
+  padding: 2em;
+  max-width: 700px;
+  margin: auto;
+  background: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+form {
+  margin-top: 20px;
+}
+form input, form select, form textarea {
+  margin: 10px 0;
+  padding: 10px;
+  font-size: 1em;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+button {
+  padding: 10px 20px;
+  background-color: #283e4a;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #3b5666;
+}
+#thumbnail {
+  margin-top: 10px;
+}
