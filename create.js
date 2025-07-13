@@ -1,20 +1,21 @@
 const client = window.supabase.createClient(
   "https://qiwebjkxdazthitzdvhm.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFpd2Viamt4ZGF6dGhpdHpkdmhtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxMjM0NDUsImV4cCI6MjA2NzY5OTQ0NX0.mRAuy-WvmsejPr_SlBGm9AOvmuW8us7NB3KnjTuSOkw"
+  "YOUR_REAL_ANON_KEY_HERE"
 );
 
-
-
 async function ensureAuth() {
-  const { data, error } = await client.auth.signInAnonymously();
-  if (error) {
-    console.error("Auth error:", error.message);
-    document.getElementById("statusMessage").textContent = "Auth failed: " + error.message;
+  const session = await client.auth.getSession();
+  if (!session.data.session) {
+    const { error } = await client.auth.signInAnonymously();
+    if (error) {
+      console.error("Auth failed:", error.message);
+      document.getElementById("statusMessage").textContent = "Auth failed: " + error.message;
+      return;
+    }
   }
 }
 
 ensureAuth();
-
 
 const form = document.getElementById("memorialForm");
 const status = document.getElementById("statusMessage");
