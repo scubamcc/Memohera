@@ -1,8 +1,18 @@
-
 const client = window.supabase.createClient(
   "https://qiwebjkxdazthitzdvhm.supabase.co",
   "public"
 );
+
+async function ensureAuth() {
+  const { data, error } = await client.auth.signInAnonymously();
+  if (error) {
+    console.error("Auth error:", error.message);
+    document.getElementById("statusMessage").textContent = "Auth failed: " + error.message;
+  }
+}
+
+ensureAuth();
+
 
 const form = document.getElementById("memorialForm");
 const status = document.getElementById("statusMessage");
