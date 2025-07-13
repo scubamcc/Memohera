@@ -1,6 +1,6 @@
 const client = window.supabase.createClient(
   "https://qiwebjkxdazthitzdvhm.supabase.co",
-  "YOUR_REAL_ANON_KEY_HERE"
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFpd2Viamt4ZGF6dGhpdHpkdmhtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxMjM0NDUsImV4cCI6MjA2NzY5OTQ0NX0.mRAuy-WvmsejPr_SlBGm9AOvmuW8us7NB3KnjTuSOkw"
 );
 
 async function ensureAuth() {
