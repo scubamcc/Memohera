@@ -19,40 +19,60 @@ const client = window.supabase.createClient(
     }
   }
 
-  document.getElementById("memorialForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
+document.getElementById("memorialForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    const fullName = document.getElementById("full_name").value;
-    const dob = document.getElementById("dob").value;
-    const dod = document.getElementById("dod").value;
-    const story = document.getElementById("story").value;
-    const country = document.getElementById("country").value;
-    const imageFile = document.getElementById("image").files[0];
+  const fullName = document.getElementById("full_name").value;
+  const dob = document.getElementById("dob").value;
+  const dod = document.getElementById("dod").value;
+  const story = document.getElementById("story").value;
+  const country = document.getElementById("country").value;
+  const imageFile = document.getElementById("image").files[0];
 
-    if (!imageFile) return alert("Please select an image.");
+  if (!imageFile) return alert("Please select an image.");
 
-    const filePath = `memorial-${Date.now()}-${imageFile.name}`;
+  const filePath = `memorial-${Date.now()}-${imageFile.name}`;
 
-    const { data: uploadData, error: uploadError } = await supabase.storage
-      .from("memorial-photos")
-      .upload(filePath, imageFile);
+  const { data: uploadData, error: uploadError } = await supabase.storage
+    .from("memorial-photos")
+    .upload(filePath, imageFile);
 
-    if (uploadError) {
-      alert("Image upload failed: " + uploadError.message);
-      return;
-    }
+  if (uploadError) {
+    alert("Image upload failed: " + uploadError.message);
+    return;
+  }
 
-    const imageUrl = `https://qiwebjkxdazthitzdvhm.supabase.co/storage/v1/object/public/memorial-photos/${filePath}`;
+  const imageUrl = `https://qiwebjkxdazthitzdvhm.supabase.co/storage/v1/object/public/memorial-photos/${filePath}`;
 
-    const { error: insertError } = await supabase
-      .from("memorials")
-      .insert([{ full_name: fullName, dob, dod, story, image_url: imageUrl, country }]);
-
-    if (insertError) {
-      alert("Data insert failed: " + insertError.message);
-    } else {
-      alert("Memorial submitted successfully.");
-      document.getElementById("memorialForm").reset();
-    }
+  console.log("Uploading memorial with values:", {
+    full_name: fullName,
+    dob,
+    dod,
+    story,
+    image_url: imageUrl,
+    country
   });
+
+  const { data: insertData, error: insertError } = await supabase
+    .from("memorials")
+    .insert([
+      {
+        full_name: fullName,
+        dob,
+        dod,
+        story,
+        image_url: imageUrl,
+        country
+      }
+    ]);
+
+  console.log("Insert response:", insertData, insertError);
+
+  if (insertError) {
+    alert("Data insert failed: " + insertError.message);
+  } else {
+    alert("Memorial submitted successfully.");
+    document.getElementById("memorialForm").reset();
+  }
+});
 </script>
