@@ -1,38 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Create Memorial - Memohera</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="style.css"/>
-  <link rel="icon" type="image/x-icon" href="favicon.ico"/>
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <script defer src="create.js"></script>
-</head>
-<body>
-  <header>
-    <h1>Memohera</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="create.html">Create Memorial</a>
-      <a href="admin.html">Admin</a>
-    </nav>
-  </header>
-  <main>
-    <h2>Create a New Memorial</h2>
-    <form id="memorialForm">
-      <input type="text" name="full_name" placeholder="Full Name" required /><br>
-      <input type="date" name="dob" required /><br>
-      <input type="date" name="dod" required /><br>
-      <select name="country" id="countrySelect" required>
-        <option value="">Select Country</option>
-      </select><br>
-      <textarea name="story" placeholder="Life story..." required></textarea><br>
-      <input type="file" id="imageUpload" accept="image/*" /><br>
-      <img id="thumbnail" style="display:none; max-height:100px; margin:10px 0;" /><br>
-      <button type="submit">Submit Memorial</button>
-    </form>
-    <p id="statusMessage"></p>
-  </main>
-</body>
-</html>
+<form id="memorialForm">
+  <input type="text" id="full_name" placeholder="Full Name" required />
+  <input type="date" id="dob" required />
+  <input type="date" id="dod" required />
+  <textarea id="story" placeholder="Write their story..." required></textarea>
+  <select id="country" required>
+    <option value="">Select Country</option>
+    <option value="Cyprus">Cyprus</option>
+    <option value="Greece">Greece</option>
+    <!-- add more -->
+  </select>
+  <input type="file" id="image" accept="image/*" required />
+  <button type="submit">Submit</button>
+</form>
