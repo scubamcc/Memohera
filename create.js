@@ -4,13 +4,18 @@ const client = window.supabase.createClient(
 );
 
 async function ensureAuth() {
-  const session = await client.auth.getSession();
-  if (!session.data.session) {
-    const { error } = await client.auth.signInAnonymously();
-    if (error) {
-      console.error("Auth failed:", error.message);
-      document.getElementById("statusMessage").textContent = "Auth failed: " + error.message;
-      return;
+  const {
+    data: { session },
+    error
+  } = await client.auth.getSession();
+
+  if (!session) {
+    const { error: authError } = await client.auth.signInAnonymously();
+    if (authError) {
+      console.error("Auth failed:", authError.message);
+      alert("Auth failed: " + authError.message);
+    } else {
+      console.log("Anonymous auth successful");
     }
   }
 }
