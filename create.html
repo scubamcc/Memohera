@@ -1,14 +1,27 @@
-<form id="memorialForm">
-  <input type="text" id="full_name" placeholder="Full Name" required />
-  <input type="date" id="dob" required />
-  <input type="date" id="dod" required />
-  <textarea id="story" placeholder="Write their story..." required></textarea>
-  <select id="country" required>
-    <option value="">Select Country</option>
-    <option value="Cyprus">Cyprus</option>
-    <option value="Greece">Greece</option>
-    <!-- add more -->
-  </select>
-  <input type="file" id="image" accept="image/*" required />
-  <button type="submit">Submit</button>
-</form>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Create Memorial</title>
+</head>
+<body>
+
+  <form id="memorialForm">
+    <input type="text" id="full_name" placeholder="Full Name" required />
+    <input type="date" id="dob" required />
+    <input type="date" id="dod" required />
+    <textarea id="story" placeholder="Write their story..." required></textarea>
+    <select id="country" required>
+      <option value="">Select Country</option>
+      <option value="Cyprus">Cyprus</option>
+      <option value="Greece">Greece</option>
+    </select>
+    <input type="file" id="image" accept="image/*" required />
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- ✅ This is the working line -->
+  <script type="module" src="create.js"></script>
+
+</body>
+</html>
