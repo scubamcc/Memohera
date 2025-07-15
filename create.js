@@ -75,4 +75,4 @@ document.getElementById("memorialForm").addEventListener("submit", async (e) => 
     document.getElementById("memorialForm").reset();
   }
 });
-</script>
+<script type="module" src="create.js"></script>
